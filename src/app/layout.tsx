@@ -52,6 +52,7 @@ export default function RootLayout({
           <main className="flex-1 pt-20 px-6 md:px-12 lg:px-24">
             {children}
           </main>
+          <AppFooter />
         </ThemeProvider>
       </body>
     </html>
