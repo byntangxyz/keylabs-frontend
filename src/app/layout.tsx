@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono, Inter } from 'next/font/google';
+import { Geist, Geist_Mono, Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import AppHeader from '@/components/app-header';
@@ -7,6 +7,10 @@ import { ThemeProvider } from '@/components/theme-provider';
 import AppFooter from '@/components/app-footer';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
+const plusJakartaSans = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-jakarta',
+});
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -37,7 +41,8 @@ export default function RootLayout({
         geistSans.variable,
         geistMono.variable,
         'font-sans',
-        inter.variable
+        inter.variable,
+        plusJakartaSans.variable
       )}
       suppressHydrationWarning
     >
@@ -49,7 +54,7 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AppHeader />
-          <main className="flex-1 pt-20 px-6 md:px-12 lg:px-24">
+          <main className="flex-1 py-20 px-6 md:px-12 lg:px-24">
             {children}
           </main>
           <AppFooter />
