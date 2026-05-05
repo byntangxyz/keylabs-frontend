@@ -21,6 +21,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { toast } from 'sonner';
 
 interface NavLink {
   title: string;
@@ -117,7 +118,9 @@ function AppHeader() {
                   <DropdownMenuContent align="end" className="w-72 mt-2">
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-medium leading-none">{session.user?.name}</p>
+                        <p className="text-sm font-medium leading-none">
+                          {session.user?.name}
+                        </p>
                         <p className="text-xs leading-none text-muted-foreground">
                           {session.user?.email}
                         </p>
@@ -125,14 +128,26 @@ function AppHeader() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem asChild>
-                      <Link href="/profile" className="cursor-pointer w-full">Profile</Link>
+                      <Link href="/profile" className="cursor-pointer w-full">
+                        Profile
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
-                      <Link href="/settings" className="cursor-pointer w-full">Settings</Link>
+                      <Link href="/settings" className="cursor-pointer w-full">
+                        Settings
+                      </Link>
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem 
-                      onClick={() => signOut()} 
+                    <DropdownMenuItem
+                      onClick={() => {
+                        signOut();
+                        toast.success('Signed out successfully!', {
+                          position: 'top-center',
+                          className:
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+                          richColors: true,
+                        });
+                      }}
                       className="cursor-pointer text-red-500 focus:text-red-500 focus:bg-red-50 dark:focus:bg-red-950/50"
                     >
                       Sign Out
@@ -204,16 +219,46 @@ function AppHeader() {
                         </AvatarFallback>
                       </Avatar>
                       <div className="flex flex-col">
-                        <span className="text-sm font-medium">{session.user?.name}</span>
-                        <span className="text-xs text-muted-foreground truncate w-32">{session.user?.email}</span>
+                        <span className="text-sm font-medium">
+                          {session.user?.name}
+                        </span>
+                        <span className="text-xs text-muted-foreground truncate w-32">
+                          {session.user?.email}
+                        </span>
                       </div>
                     </div>
                     <ToggleTheme />
                   </div>
                   <div className="flex flex-col gap-3 mt-4">
-                    <Link href="/profile" onClick={closeMenu} className="text-lg font-medium hover:text-primary">Profile</Link>
-                    <Link href="/settings" onClick={closeMenu} className="text-lg font-medium hover:text-primary">Settings</Link>
-                    <button onClick={() => { closeMenu(); signOut(); }} className="text-left text-lg font-medium text-red-500">Sign Out</button>
+                    <Link
+                      href="/profile"
+                      onClick={closeMenu}
+                      className="text-lg font-medium hover:text-primary"
+                    >
+                      Profile
+                    </Link>
+                    <Link
+                      href="/settings"
+                      onClick={closeMenu}
+                      className="text-lg font-medium hover:text-primary"
+                    >
+                      Settings
+                    </Link>
+                    <button
+                      onClick={() => {
+                        closeMenu();
+                        signOut();
+                        toast.success('Signed out successfully!', {
+                          position: 'top-center',
+                          className:
+                            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+                          richColors: true,
+                        });
+                      }}
+                      className="text-left text-lg font-medium text-red-500"
+                    >
+                      Sign Out
+                    </button>
                   </div>
                 </>
               ) : (

@@ -18,6 +18,7 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import Link from 'next/link';
+import { toast } from 'sonner';
 
 const loginSchema = z.object({
   email: z.string().min(1, 'Email is required').email('Invalid email'),
@@ -59,6 +60,13 @@ function SignInForm() {
       } else {
         router.push(callbackUrl);
         router.refresh();
+        toast.success('Signed in successfully!', {
+          position: 'top-center',
+        
+          className:
+            'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400',
+          richColors: true,
+        });
       }
     } catch (err) {
       setError('An unexpected error occurred');
@@ -91,11 +99,16 @@ function SignInForm() {
           )}
 
           <div className="space-y-2">
-            <Label htmlFor="email">Email</Label>
+            <Label
+              htmlFor="email"
+              className="after:content-['*'] after:-ml-2 after:text-red-500"
+            >
+              Email
+            </Label>
             <Input
               id="email"
               type="email"
-              placeholder="john@example.com"
+              placeholder="your@email.com"
               {...register('email')}
               className={
                 errors.email ? 'border-red-500 focus-visible:ring-red-500' : ''
@@ -108,7 +121,12 @@ function SignInForm() {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
+              <Label
+                htmlFor="password"
+                className="after:content-['*'] after:-ml-2 after:text-red-500"
+              >
+                Password
+              </Label>
             </div>
             <Input
               id="password"

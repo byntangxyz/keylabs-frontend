@@ -95,10 +95,15 @@ export default function SignUpPage() {
               </div>
             )}
             <div className="space-y-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label
+                htmlFor="name"
+                className="after:content-['*'] after:-ml-2 after:text-red-500"
+              >
+                Full Name
+              </Label>
               <Input
                 id="name"
-                placeholder="John Doe"
+                placeholder="Your full name"
                 {...register('name')}
                 className={
                   errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''
@@ -110,11 +115,16 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label
+                htmlFor="email"
+                className="after:content-['*'] after:-ml-2 after:text-red-500"
+              >
+                Email
+              </Label>
               <Input
                 id="email"
                 type="email"
-                placeholder="john@example.com"
+                placeholder="your@email.com"
                 {...register('email')}
                 className={
                   errors.email
@@ -129,16 +139,16 @@ export default function SignUpPage() {
 
             <div className="space-y-2">
               <Label htmlFor="phoneNumber">Phone Number (Optional)</Label>
-              <Input
-                id="phoneNumber"
-                type="tel"
-                placeholder="+1 234 567 890"
-                {...register('phoneNumber')}
-              />
+              <Input id="phoneNumber" type="tel" {...register('phoneNumber')} />
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+              <Label
+                htmlFor="password"
+                className="after:content-['*'] after:-ml-2 after:text-red-500"
+              >
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -157,7 +167,12 @@ export default function SignUpPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+              <Label
+                htmlFor="confirmPassword"
+                className="after:content-['*'] after:-ml-2 after:text-red-500"
+              >
+                Confirm Password
+              </Label>
               <Input
                 id="confirmPassword"
                 type="password"
