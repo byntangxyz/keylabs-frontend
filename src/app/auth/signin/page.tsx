@@ -132,7 +132,7 @@ function SignInForm() {
       </CardContent>
       <CardFooter className="flex flex-col items-center justify-center space-y-2">
         <div className="text-sm text-gray-500 dark:text-gray-400">
-          Don't have an account?{' '}
+          Don&apos;t have an account?{' '}
           <Link
             href="/auth/signup"
             className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
@@ -147,7 +147,7 @@ function SignInForm() {
 
 export default function SignInPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-gray-50 dark:bg-zinc-900">
+    <div className="flex mt-16 items-center justify-center p-4">
       <Suspense fallback={<div>Loading...</div>}>
         <SignInForm />
       </Suspense>

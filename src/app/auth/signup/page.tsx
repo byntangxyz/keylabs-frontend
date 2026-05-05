@@ -1,26 +1,35 @@
-"use client";
+'use client';
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import Link from "next/link";
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import Link from 'next/link';
 
-const userSchema = z.object({
-  name: z.string().min(1, "Name is required"),
-  email: z.string().min(1, "Email is required").email("Invalid email"),
-  phoneNumber: z.string().optional(),
-  password: z.string().min(6, "Password must be at least 6 characters"),
-  confirmPassword: z.string().min(6, "Confirm Password is required"),
-}).refine((data) => data.password === data.confirmPassword, {
-  path: ["confirmPassword"],
-  message: "Passwords do not match",
-});
+const userSchema = z
+  .object({
+    name: z.string().min(1, 'Name is required'),
+    email: z.string().min(1, 'Email is required').email('Invalid email'),
+    phoneNumber: z.string().optional(),
+    password: z.string().min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z.string().min(6, 'Confirm Password is required'),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    path: ['confirmPassword'],
+    message: 'Passwords do not match',
+  });
 
 type SignUpFormValues = z.infer<typeof userSchema>;
 
@@ -41,10 +50,10 @@ export default function SignUpPage() {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch("/api/register", {
-        method: "POST",
+      const response = await fetch('/api/register', {
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           name: data.name,
@@ -55,23 +64,25 @@ export default function SignUpPage() {
       });
 
       if (response.ok) {
-        router.push("/auth/signin?registered=true");
+        router.push('/auth/signin?registered=true');
       } else {
         const result = await response.json();
-        setError(result.message || "An error occurred");
+        setError(result.message || 'An error occurred');
       }
     } catch (err) {
-      setError("An error occurred");
+      setError('An error occurred');
     } finally {
       setIsLoading(false);
     }
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center p-4 bg-gray-50 dark:bg-zinc-900">
+    <div className="flex items-center justify-center p-4">
       <Card className="w-full max-w-md shadow-lg border-gray-200 dark:border-zinc-800">
         <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold tracking-tight">Create an account</CardTitle>
+          <CardTitle className="text-2xl font-bold tracking-tight">
+            Create an account
+          </CardTitle>
           <CardDescription>
             Enter your information below to create your account
           </CardDescription>
@@ -88,22 +99,32 @@ export default function SignUpPage() {
               <Input
                 id="name"
                 placeholder="John Doe"
-                {...register("name")}
-                className={errors.name ? "border-red-500 focus-visible:ring-red-500" : ""}
+                {...register('name')}
+                className={
+                  errors.name ? 'border-red-500 focus-visible:ring-red-500' : ''
+                }
               />
-              {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-sm text-red-500">{errors.name.message}</p>
+              )}
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="john@example.com"
-                {...register("email")}
-                className={errors.email ? "border-red-500 focus-visible:ring-red-500" : ""}
+                {...register('email')}
+                className={
+                  errors.email
+                    ? 'border-red-500 focus-visible:ring-red-500'
+                    : ''
+                }
               />
-              {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+              {errors.email && (
+                <p className="text-sm text-red-500">{errors.email.message}</p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -112,7 +133,7 @@ export default function SignUpPage() {
                 id="phoneNumber"
                 type="tel"
                 placeholder="+1 234 567 890"
-                {...register("phoneNumber")}
+                {...register('phoneNumber')}
               />
             </div>
 
@@ -121,10 +142,18 @@ export default function SignUpPage() {
               <Input
                 id="password"
                 type="password"
-                {...register("password")}
-                className={errors.password ? "border-red-500 focus-visible:ring-red-500" : ""}
+                {...register('password')}
+                className={
+                  errors.password
+                    ? 'border-red-500 focus-visible:ring-red-500'
+                    : ''
+                }
               />
-              {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+              {errors.password && (
+                <p className="text-sm text-red-500">
+                  {errors.password.message}
+                </p>
+              )}
             </div>
 
             <div className="space-y-2">
@@ -132,21 +161,32 @@ export default function SignUpPage() {
               <Input
                 id="confirmPassword"
                 type="password"
-                {...register("confirmPassword")}
-                className={errors.confirmPassword ? "border-red-500 focus-visible:ring-red-500" : ""}
+                {...register('confirmPassword')}
+                className={
+                  errors.confirmPassword
+                    ? 'border-red-500 focus-visible:ring-red-500'
+                    : ''
+                }
               />
-              {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>}
+              {errors.confirmPassword && (
+                <p className="text-sm text-red-500">
+                  {errors.confirmPassword.message}
+                </p>
+              )}
             </div>
 
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Sign Up"}
+            <Button type="submit" className="w-full mt-4" disabled={isLoading}>
+              {isLoading ? 'Creating account...' : 'Sign Up'}
             </Button>
           </form>
         </CardContent>
         <CardFooter className="flex flex-col items-center justify-center space-y-2">
           <div className="text-sm text-gray-500 dark:text-gray-400">
-            Already have an account?{" "}
-            <Link href="/auth/signin" className="text-blue-600 hover:text-blue-500 dark:text-blue-400">
+            Already have an account?{' '}
+            <Link
+              href="/auth/signin"
+              className="text-blue-600 hover:text-blue-500 dark:text-blue-400"
+            >
               Sign in
             </Link>
           </div>
