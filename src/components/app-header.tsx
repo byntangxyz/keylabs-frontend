@@ -11,6 +11,16 @@ import { Menu, ShoppingCart, X } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useIsMobile } from '@/hooks/use-mobile';
 import ToggleTheme from './toggle-theme';
+import { useSession, signOut } from 'next-auth/react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 
 interface NavLink {
   title: string;
@@ -28,6 +38,7 @@ const navLinks: NavLink[] = [
 function AppHeader() {
   const isMobile = useIsMobile();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { data: session, status } = useSession();
 
   useEffect(() => {
     if (isMenuOpen) {
@@ -41,6 +52,16 @@ function AppHeader() {
   }, [isMenuOpen]);
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  const getInitials = (name?: string | null) => {
+    if (!name) return 'U';
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .substring(0, 2)
+      .toUpperCase();
+  };
 
   return (
     <>
@@ -83,12 +104,49 @@ function AppHeader() {
               <Link href="/cart">
                 <ShoppingCart size={24} />
               </Link>
-              <Link
-                href="/auth/signup"
-                className="text-primary dark:text-amber-500"
-              >
-                SignUp
-              </Link>
+              {status === 'authenticated' ? (
+                <DropdownMenu>
+                  <DropdownMenuTrigger className="outline-none">
+                    <Avatar className="h-8 w-8 transition-transform hover:scale-105">
+                      <AvatarImage src={session.user?.image || ''} />
+                      <AvatarFallback className="bg-primary text-primary-foreground text-xs font-semibold">
+                        {getInitials(session.user?.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-56 mt-2">
+                    <DropdownMenuLabel className="font-normal">
+                      <div className="flex flex-col space-y-1">
+                        <p className="text-sm font-medium leading-none">{session.user?.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">
+                          {session.user?.email}
+                        </p>
+                      </div>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem asChild>
+                      <Link href="/profile" className="cursor-pointer w-full">Profile</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/settings" className="cursor-pointer w-full">Settings</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem 
+                      onClick={() => signOut()} 
+                      className="cursor-pointer text-red-500 focus:text-red-500 focus:bg-red-50 dark:focus:bg-red-950/50"
+                    >
+                      Sign Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <Link
+                  href="/auth/signup"
+                  className="text-primary dark:text-amber-500"
+                >
+                  SignUp
+                </Link>
+              )}
             </div>
           </>
         )}
@@ -134,15 +192,42 @@ function AppHeader() {
               </Link>
             ))}
 
-            <div className="mt-auto flex justify-between items-center gap-3 pt-6">
-              <Link
-                href="/auth/signup"
-                onClick={closeMenu}
-                className="text-primary text-lg dark:text-amber-500 font-medium hover:underline"
-              >
-                SignUp
-              </Link>
-              <ToggleTheme />
+            <div className="mt-auto border-t border-border/50 pt-6 flex flex-col gap-4">
+              {status === 'authenticated' ? (
+                <>
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <Avatar className="h-10 w-10">
+                        <AvatarImage src={session.user?.image || ''} />
+                        <AvatarFallback className="bg-primary text-primary-foreground font-semibold">
+                          {getInitials(session.user?.name)}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex flex-col">
+                        <span className="text-sm font-medium">{session.user?.name}</span>
+                        <span className="text-xs text-muted-foreground truncate w-32">{session.user?.email}</span>
+                      </div>
+                    </div>
+                    <ToggleTheme />
+                  </div>
+                  <div className="flex flex-col gap-3 mt-4">
+                    <Link href="/profile" onClick={closeMenu} className="text-lg font-medium hover:text-primary">Profile</Link>
+                    <Link href="/settings" onClick={closeMenu} className="text-lg font-medium hover:text-primary">Settings</Link>
+                    <button onClick={() => { closeMenu(); signOut(); }} className="text-left text-lg font-medium text-red-500">Sign Out</button>
+                  </div>
+                </>
+              ) : (
+                <div className="flex justify-between items-center w-full">
+                  <Link
+                    href="/auth/signup"
+                    onClick={closeMenu}
+                    className="text-primary text-lg dark:text-amber-500 font-medium hover:underline"
+                  >
+                    SignUp
+                  </Link>
+                  <ToggleTheme />
+                </div>
+              )}
             </div>
           </nav>
         </>
