@@ -84,10 +84,10 @@ function AppHeader() {
                 <ShoppingCart size={24} />
               </Link>
               <Link
-                href="/register"
+                href="/auth/signup"
                 className="text-primary dark:text-amber-500"
               >
-                Register
+                SignUp
               </Link>
             </div>
           </>
@@ -136,11 +136,11 @@ function AppHeader() {
 
             <div className="mt-auto flex justify-between items-center gap-3 pt-6">
               <Link
-                href="/register"
+                href="/auth/signup"
                 onClick={closeMenu}
                 className="text-primary text-lg dark:text-amber-500 font-medium hover:underline"
               >
-                Register Now!
+                SignUp
               </Link>
               <ToggleTheme />
             </div>
