@@ -114,7 +114,7 @@ function AppHeader() {
                       </AvatarFallback>
                     </Avatar>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56 mt-2">
+                  <DropdownMenuContent align="end" className="w-72 mt-2">
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-medium leading-none">{session.user?.name}</p>

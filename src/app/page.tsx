@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 
 export default function Home() {
   return (
@@ -33,7 +34,48 @@ export default function Home() {
           </div>
         </div>
       </section>
-      <section></section>
+      <section className="bg-[#050505] py-24 px-6 md:px-12 lg:px-24">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              name: 'Keyboard Kits',
+              image: '/images/keyboard-category.png',
+              link: '/products?category=keyboard-kits',
+            },
+            {
+              name: 'Switch',
+              image: '/images/switch-category.png',
+              link: '/products?category=switch',
+            },
+            {
+              name: 'Keycaps',
+              image: '/images/keycaps-category.png',
+              link: '/products?category=keycaps',
+            },
+          ].map((category) => (
+            <Link
+              key={category.name}
+              href={category.link}
+              className="group relative flex aspect-[4/3] w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-linear-to-b from-neutral-500 to-neutral-800 shadow-lg transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl"
+            >
+              <div className="relative flex h-full w-full items-center justify-center p-8">
+                <Image
+                  src={category.image}
+                  alt={category.name}
+                  width={400}
+                  height={300}
+                  className="h-auto w-full object-contain drop-shadow-2xl transition-transform duration-500 group-hover:scale-105"
+                />
+              </div>
+              <div className="absolute bottom-5 left-6">
+                <span className="text-xl font-bold tracking-tight text-white">
+                  {category.name}
+                </span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </section>
     </>
   );
 }
