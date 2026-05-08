@@ -68,7 +68,7 @@ function AppHeader() {
     <>
       <header className="fixed top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60 h-16 flex justify-between items-center px-6 md:px-12 lg:px-24">
         <Link className="flex items-center gap-2" href="/" onClick={closeMenu}>
-          <Image src="/logo.png" alt="Logo" width={50} height={50} />
+          <Image src="/Logo.png" alt="Logo" width={50} height={50} />
           <h2 className="font-semibold text-xl">KeyLabs</h2>
         </Link>
 
